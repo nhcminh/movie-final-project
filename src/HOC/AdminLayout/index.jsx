@@ -50,21 +50,18 @@ export default function AdminLayout({ component: Component, ...restParam }) {
                 </Menu.Item>
               </Menu>
             </Sider>
-            <Layout className="site-layout">
-              <Header
-                className="site-layout-background"
-                style={{ padding: 0 }}
-              />
-              <Content style={{ margin: "0 16px" }}>
+            <Layout >
+              <Header                
+                style={{ padding: 0 ,background:"white",marginBottom: 10 }}
+            ></Header>
+              <Content style={{ margin: "0 16px" ,background:"white"}}>
                 <Breadcrumb style={{ margin: "16px 0" }}>
                   <Breadcrumb.Item>User</Breadcrumb.Item>
                   <Breadcrumb.Item>Bill</Breadcrumb.Item>
                 </Breadcrumb>
                 <Component {...comProps}></Component>
               </Content>
-              <Footer style={{ textAlign: "center" }}>
-                Ant Design ©2018 Created by Ant UED
-              </Footer>
+           
             </Layout>
           </Layout>
         );

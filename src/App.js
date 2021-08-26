@@ -7,20 +7,29 @@ import PageNotFound from './View/PageNotFound';
 import SignIn from './View/SignIn';
 import Profile from './View/Profile';
 import './App.css';
+import AdminLayout from './HOC/AdminLayout';
+import Dashboard from './View/Admin/Dashboard';
+import Films from './View/Admin/Films';
+import Showtime from './View/Admin/Showtime';
 function App() {
   return (
     <BrowserRouter>
-      <MainLayout>
+      {/* <MainLayout> */}
         <Switch>
           <Route path='/' exact>
-            <Redirect to='/home' />
+            {/* <Redirect to='/home' /> */}
           </Route>
           <AuthRoute path='/signin' exact component={SignIn} />
           <PrivateRoute path='/profile' exact component={Profile} />
           <Route path='/home' exact component={Home} />
+
+          <AdminLayout path="/adminhome" exact component={Dashboard}></AdminLayout>
+          <AdminLayout path="/adminfilms" exact component={Films}></AdminLayout>
+          <AdminLayout path="/adminshowtime" exact component={Showtime}></AdminLayout>
+
           <Route component={PageNotFound} />
         </Switch>
-      </MainLayout>
+      {/* </MainLayout> */}
     </BrowserRouter>
   );
 }

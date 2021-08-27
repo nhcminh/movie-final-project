@@ -1,2 +1,5 @@
 import { LoadingSliceActions } from './Slices/LoadingSlice';
-export { LoadingSliceActions };
+import { FilmsSliceAction } from "./Slices/FilmsSlice";
+
+export { LoadingSliceActions ,FilmsSliceAction };
+

@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import {
   DesktopOutlined,
-  PieChartOutlined,
   FileOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 const { Header, Content, Sider } = Layout;
-const { SubMenu } = Menu;
+// const { SubMenu } = Menu;
 
 export default function AdminLayout(props) {
   const [collapsed, setCollapsed] = useState(false);

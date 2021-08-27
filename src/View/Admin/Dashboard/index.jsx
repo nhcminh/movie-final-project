@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Button, Input, Table, Typography } from "antd";
+import { Button, Input, Space, Table, Typography } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { AxiosGet } from "../../../API/method";
 
@@ -11,9 +11,9 @@ export default function Dashboard(props) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalPage, setTotalPage] = useState();
-  const [order,setOrder] = useState({
+  const [, setOrder] = useState({
     sortedInfo: null,
-  }) 
+  });
   useEffect(() => {
     //gọi API get
     AxiosGet(
@@ -29,11 +29,11 @@ export default function Dashboard(props) {
       .catch((err) => console.log(err));
   }, [pageSize, page]);
 
-  const handleChange = (sorter) =>{
+  const handleChange = (sorter) => {
     setOrder({
-        sortedInfo: sorter,
-    })
-  }
+      sortedInfo: sorter,
+    });
+  };
 
   const columns = [
     {
@@ -47,16 +47,14 @@ export default function Dashboard(props) {
       title: "Hình ảnh",
       key: "hinhAnh",
       dataIndex: "hinhAnh",
-      width: "10%",
+      width: "15%",
       render: (record) => {
         return (
-          <div style={{ textAlign: "center" }}>
-            <img
-              src={`${record.replace("movieapinew", "movieapi")}`}
-              width="100px"
-              alt="phim"
-            ></img>
-          </div>
+          <img
+            src={`${record.replace("movieapinew", "movieapi")}`}
+            width="100px"
+            alt="phim"
+          ></img>
         );
       },
     },
@@ -64,15 +62,15 @@ export default function Dashboard(props) {
       title: "Tên phim",
       key: "tenPhim",
       dataIndex: "tenPhim",
-      width: "20%",
-      sorter: (a,b) => {
+      width: "25%",
+      sorter: (a, b) => {
         let nameA = a.tenPhim.trim().toLowerCase();
         let nameB = b.tenPhim.trim().toLowerCase();
-        if( nameA < nameB) {
-            return -1 ;
-        } 
-        if( nameA > nameB) {
-            return 1 ;
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
         }
       },
     },
@@ -88,13 +86,7 @@ export default function Dashboard(props) {
       width: "10%",
       render: (record) => {
         return (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignContent: "center",
-            }}
-          >
+          <Space size="large" align="baseline" direction="horizontal">
             <EditOutlined
               style={{ fontSize: "25px", color: "rgb(247,183,182)" }}
               onClick={() => {
@@ -106,12 +98,11 @@ export default function Dashboard(props) {
               twoToneColor="#52c41a"
               onClick={() => {}}
             ></DeleteOutlined>
-          </div>
+          </Space>
         );
       },
     },
   ];
-
 
   return (
     <Fragment>
@@ -122,7 +113,6 @@ export default function Dashboard(props) {
       <Search
         placeholder="input search text"
         enterButton
-        style={{ margin: " 10px 0" }}
       />
 
       <Table
@@ -138,7 +128,6 @@ export default function Dashboard(props) {
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);
-            console.log("Change", page, pageSize);
           },
         }}
       />

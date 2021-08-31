@@ -18,23 +18,23 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact>
-          <Redirect to="/home" />
+        <Route path='/' exact>
+          <Redirect to='/home' />
         </Route>
-        <Route path="/admin/:path?/:path?/:path?" exact>
+        <Route path='/admin/:path?/:path?/:path?' exact>
           <AdminLayout>
-            <Route path="/admin" exact component={Dashboard} />
-            <Route path="/admin/films" exact component={Films} />
-            <Route path="/admin/films/addnew" exact component={NewFilm} />
-            <Route path="/admin/films/edit/:id" exact component={EditFilm} />
-            <Route path="/admin/showtime" exact component={Showtime} />
+            <Route path='/admin' exact component={Dashboard} />
+            <Route path='/admin/films' exact component={Films} />
+            <Route path='/admin/films/addnew' exact component={NewFilm} />
+            <Route path='/admin/films/edit/:id' exact component={EditFilm} />
+            <Route path='/admin/showtime' exact component={Showtime} />
           </AdminLayout>
         </Route>
         <Route>
           <MainLayout>
-            <AuthRoute path="/signin" exact component={SignIn} />
-            <PrivateRoute path="/profile" exact component={Profile} />
-            <Route path="/home" exact component={Home} />
+            <AuthRoute path='/signin' exact component={SignIn} />
+            <PrivateRoute path='/profile' exact component={Profile} />
+            <Route path='/home' exact component={Home} />
           </MainLayout>
         </Route>
         <Route component={PageNotFound} />

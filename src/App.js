@@ -10,7 +10,10 @@ import './App.css';
 import AdminLayout from './HOC/AdminLayout';
 import Dashboard from './View/Admin/Dashboard';
 import Films from './View/Admin/Films';
+import NewFilm from './View/Admin/NewFilm';
 import Showtime from './View/Admin/Showtime';
+import EditFilm from './View/Admin/EditFilm';
+
 function App() {
   return (
     <BrowserRouter>
@@ -18,10 +21,12 @@ function App() {
         <Route path='/' exact>
           <Redirect to='/home' />
         </Route>
-        <Route path='/admin/:path?' exact>
+        <Route path='/admin/:path?/:path?/:path?' exact>
           <AdminLayout>
-            <Route path='/admin/home' exact component={Dashboard} />
+            <Route path='/admin' exact component={Dashboard} />
             <Route path='/admin/films' exact component={Films} />
+            <Route path='/admin/films/addnew' exact component={NewFilm} />
+            <Route path='/admin/films/edit/:id' exact component={EditFilm} />
             <Route path='/admin/showtime' exact component={Showtime} />
           </AdminLayout>
         </Route>

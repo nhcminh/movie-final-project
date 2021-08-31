@@ -1,18 +1,18 @@
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import AuthRoute from "./HOC/AuthRoute";
-import MainLayout from "./HOC/MainLayout";
-import PrivateRoute from "./HOC/PrivateRoute";
-import Home from "./View/Home";
-import PageNotFound from "./View/PageNotFound";
-import SignIn from "./View/SignIn";
-import Profile from "./View/Profile";
-import "./App.css";
-import AdminLayout from "./HOC/AdminLayout";
-import Dashboard from "./View/Admin/Dashboard";
-import Films from "./View/Admin/Films";
-import NewFilm from "./View/Admin/NewFilm";
-import Showtime from "./View/Admin/Showtime";
-import EditFilm from "./View/Admin/EditFilm";
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import AuthRoute from './HOC/AuthRoute';
+import MainLayout from './HOC/MainLayout';
+import PrivateRoute from './HOC/PrivateRoute';
+import Home from './View/Home';
+import PageNotFound from './View/PageNotFound';
+import SignIn from './View/SignIn';
+import Profile from './View/Profile';
+import './App.css';
+import AdminLayout from './HOC/AdminLayout';
+import Dashboard from './View/Admin/Dashboard';
+import Films from './View/Admin/Films';
+import NewFilm from './View/Admin/NewFilm';
+import Showtime from './View/Admin/Showtime';
+import EditFilm from './View/Admin/EditFilm';
 
 function App() {
   return (

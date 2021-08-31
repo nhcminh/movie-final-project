@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Button, Input, Space, Table, Typography } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { AxiosGet } from "../../../API/method";
-import { NavLink } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from 'react';
+import { Button, Input, Space, Table, Typography } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { AxiosGet } from '../../../API/method';
+import { NavLink } from 'react-router-dom';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -38,32 +38,32 @@ export default function Dashboard(props) {
 
   const columns = [
     {
-      title: "Mã Phim",
-      key: "maPhim",
-      dataIndex: "maPhim",
-      width: "10%",
+      title: 'Mã Phim',
+      key: 'maPhim',
+      dataIndex: 'maPhim',
+      width: '10%',
       sorter: (a, b) => a.maPhim - b.maPhim,
     },
     {
-      title: "Hình ảnh",
-      key: "hinhAnh",
-      dataIndex: "hinhAnh",
-      width: "15%",
+      title: 'Hình ảnh',
+      key: 'hinhAnh',
+      dataIndex: 'hinhAnh',
+      width: '15%',
       render: (record) => {
         return (
           <img
-            src={`${record.replace("movieapinew", "movieapi")}`}
-            width="100px"
-            alt="phim"
+            src={`${record.replace('movieapinew', 'movieapi')}`}
+            width='100px'
+            alt='phim'
           ></img>
         );
       },
     },
     {
-      title: "Tên phim",
-      key: "tenPhim",
-      dataIndex: "tenPhim",
-      width: "25%",
+      title: 'Tên phim',
+      key: 'tenPhim',
+      dataIndex: 'tenPhim',
+      width: '25%',
       sorter: (a, b) => {
         let nameA = a.tenPhim.trim().toLowerCase();
         let nameB = b.tenPhim.trim().toLowerCase();
@@ -76,25 +76,25 @@ export default function Dashboard(props) {
       },
     },
     {
-      title: "Mô tả",
-      key: "moTa",
-      dataIndex: "moTa",
-      width: "40%",
+      title: 'Mô tả',
+      key: 'moTa',
+      dataIndex: 'moTa',
+      width: '40%',
     },
     {
-      title: "Hành động",
-      key: "action",
-      width: "10%",
+      title: 'Hành động',
+      key: 'action',
+      width: '10%',
       render: (record) => {
         return (
-          <Space size="large" align="baseline" direction="horizontal">
+          <Space size='large' align='baseline' direction='horizontal'>
             <EditOutlined
-              style={{ fontSize: "25px", color: "rgb(247,183,182)" }}
+              style={{ fontSize: '25px', color: 'rgb(247,183,182)' }}
               onClick={() => {}}
             ></EditOutlined>
             <DeleteOutlined
-              style={{ fontSize: "25px", color: "rgb(131,122,239)" }}
-              twoToneColor="#52c41a"
+              style={{ fontSize: '25px', color: 'rgb(131,122,239)' }}
+              twoToneColor='#52c41a'
               onClick={() => {}}
             ></DeleteOutlined>
           </Space>
@@ -106,16 +106,16 @@ export default function Dashboard(props) {
   return (
     <Fragment>
       <Title level={2}>Quản lý phim</Title>
-      <Button type="primary" ghost>
-        <NavLink to="/admin/films/addnew">Thêm phim</NavLink>
+      <Button type='primary' ghost>
+        <NavLink to='/admin/films/addnew'>Thêm phim</NavLink>
       </Button>
-      <Search placeholder="input search text" enterButton />
+      <Search placeholder='input search text' enterButton />
 
       <Table
         bordered
         dataSource={data}
         columns={columns}
-        rowKey={"maPhim"}
+        rowKey={'maPhim'}
         onChange={handleChange}
         pagination={{
           current: page,

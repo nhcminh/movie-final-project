@@ -1,10 +1,10 @@
-import { notification } from "antd";
+import { notification } from 'antd';
 
 export const notificationAnt = (type, message, description) => {
   notification[type]({
     // success ,info, warning, err
     message,
-    description,    
+    description,
     duration: 2,
   });
 };

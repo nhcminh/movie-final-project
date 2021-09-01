@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from 'axios';
+import { TOKEN } from './constant';
 
 export const request = ({ url, body, params, method }) => {
   const variables = {
@@ -12,12 +13,13 @@ export const request = ({ url, body, params, method }) => {
 
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem(TOKEN);
     if (token) {
-      config.headers["Authorization"] = "Bearer " + token;
+      config.headers['Authorization'] = 'Bearer ' + token;
     }
-    config.headers['TokenCybersoft'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udCBFbmQgNjQiLCJIZXRIYW5TdHJpbmciOiIyMS8wMS8yMDIyIiwiSGV0SGFuVGltZSI6IjE2NDI3MjMyMDAwMDAiLCJuYmYiOjE2MTYxNzMyMDAsImV4cCI6MTY0Mjg3MDgwMH0.2sSWVGy-3Ce9iJ8bIYmYOJ9aE1eu3fz07DtA2ECfiyk'
-    config.headers["Content-Type"] = "application/json";
+    config.headers['TokenCybersoft'] =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udCBFbmQgNjQiLCJIZXRIYW5TdHJpbmciOiIyMS8wMS8yMDIyIiwiSGV0SGFuVGltZSI6IjE2NDI3MjMyMDAwMDAiLCJuYmYiOjE2MTYxNzMyMDAsImV4cCI6MTY0Mjg3MDgwMH0.2sSWVGy-3Ce9iJ8bIYmYOJ9aE1eu3fz07DtA2ECfiyk';
+    config.headers['Content-Type'] = 'application/json';
     return config;
   },
   (error) => {

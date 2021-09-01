@@ -4,21 +4,17 @@ import {
   Input,
   Button,
   Radio,
-  Select,
-  Cascader,
   DatePicker,
   InputNumber,
-  TreeSelect,
   Switch,
   Typography,
-  Upload,
 } from 'antd';
 import { useFormik } from 'formik';
-import moment, { min } from 'moment';
+import moment from 'moment';
 import { AxiosPost } from '../../../API/method';
 import { notificationAnt } from '../../../Utility/NotificationAnt/notificationAnt';
 import * as Yup from 'yup';
-import { values } from 'lodash';
+
 const { Title, Text } = Typography;
 
 // Catch lỗi form

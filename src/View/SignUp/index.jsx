@@ -6,7 +6,6 @@ import { Fragment } from 'react';
 import Text from 'antd/lib/typography/Text';
 import { AxiosPost } from '../../API/method';
 import { notificationAnt } from '../../Utility/NotificationAnt/notificationAnt';
-import { history } from '../../Utility/History/history';
 
 const { Title } = Typography;
 const layout = {

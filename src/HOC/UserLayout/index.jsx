@@ -5,28 +5,13 @@ import { useEffect } from 'react';
 
 const { Sider, Content } = Layout;
 
-
-
 export default function UserLayout(props) {
-  const [{ width, height }, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    window.onresize = () => {
-      setSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-  }, []);
   return (
     <Layout>
       <Sider
-        width={Math.round(width / 2)}
+        width={Math.round(window.innerWidth / 2)}
         style={{
-          height: height,
+          height: window.innerHeight,
           backgroundImage: `url(https://picsum.photos/500)`,
           backgroundSize: '100%',
         }}

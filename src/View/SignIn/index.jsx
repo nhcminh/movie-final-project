@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import { Form, Input, Button, Checkbox, Space, Typography } from 'antd';
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import Text from 'antd/lib/typography/Text';
-import { AxiosPost } from '../../API/method';
 import { notificationAnt } from '../../Utility/NotificationAnt/notificationAnt';
 import { useDispatch } from 'react-redux';
-import { getSignIn } from '../../Redux/Action/UserAction';
+import { getMe } from '../../Redux/Slices/UserSlice';
+import { TOKEN, USER_LOGIN } from '../../API/constant';
 
 const { Title } = Typography;
 
@@ -21,6 +21,7 @@ const validationSchema = Yup.object().shape({
 function SignIn(props) {
   const [size, setSize] = useState('small');
   const dispatch = useDispatch();
+  const history = useHistory();
 
   // Formik
   const formik = useFormik({
@@ -29,11 +30,30 @@ function SignIn(props) {
       matKhau: '',
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // console.log(typeof values);
       console.log(values);
       // Gọi APi đăng nhặp
-      dispatch(getSignIn(values));
+      try {
+        const actionResult = await dispatch(getMe(values)).unwrap();
+        // console.log('actionResult',actionResult);
+
+        //Xét loại người dùng
+        if (actionResult.maLoaiNguoiDung === 'QuanTri') {
+          localStorage.setItem(TOKEN, actionResult.accessToken);
+          localStorage.setItem(USER_LOGIN, JSON.stringify(actionResult));
+          notificationAnt(`success`, `Đăng nhập`, `Đăng nhập thành công!`);
+          history.push('/');
+        } else {
+          notificationAnt(
+            `error`,
+            `Đăng nhập`,
+            `Người dùng không có quyền truy cập!`
+          );
+        }
+      } catch (err) {
+        notificationAnt(`error`, `Đăng nhập`, `${err.content}`);
+      }
     },
   });
 

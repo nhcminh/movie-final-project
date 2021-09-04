@@ -41,7 +41,6 @@ function SignIn(props) {
         //Xét loại người dùng
         if (actionResult.maLoaiNguoiDung === 'QuanTri') {
           localStorage.setItem(TOKEN, actionResult.accessToken);
-          localStorage.setItem(USER_LOGIN, JSON.stringify(actionResult));
           notificationAnt(`success`, `Đăng nhập`, `Đăng nhập thành công!`);
           history.push('/');
         } else {

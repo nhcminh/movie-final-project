@@ -9,9 +9,9 @@ export default function UserLayout(props) {
   return (
     <Layout>
       <Sider
-        width={Math.round(window.innerWidth / 2)}
+        width="50vw"
         style={{
-          height: window.innerHeight,
+          height: "100vh",
           backgroundImage: `url(https://picsum.photos/500)`,
           backgroundSize: '100%',
         }}

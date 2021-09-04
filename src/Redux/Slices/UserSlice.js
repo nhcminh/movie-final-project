@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { REHYDRATE } from 'redux-persist';
 import { USER_LOGIN } from '../../API/constant';
 import { userApi } from '../../Services/User/UserService';
 
@@ -26,11 +27,7 @@ const initialState = {
 const userSlice = createSlice({
   name: 'userSlice',
   initialState,
-  reducers: {
-    getInitialMe: (state, { payload }) => {
-      state.userInfo = payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getMe.fulfilled, (state, action) => {
       state.userInfo = action.payload;

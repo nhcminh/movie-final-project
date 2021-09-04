@@ -38,11 +38,11 @@ function App() {
             <Route path='/admin/showtime' exact component={Showtime} />
           </AdminLayout>
         </Route>
-        <Route>
+        {/* <Route>
           <MainLayout>
             <Route path='/home' exact component={Home} />
           </MainLayout>
-        </Route>
+        </Route> */}
         <Route>
           <UserLayout>
             <AuthRoute path='/signin' exact component={SignIn} />

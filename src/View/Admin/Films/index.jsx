@@ -71,8 +71,6 @@ export default function Dashboard(props) {
 
   // Search
   const handleSearch = (value) => {
-    // console.log(value);
-    // setSearchData(value);
   };
 
   const handleChangeSearch = (e) => {

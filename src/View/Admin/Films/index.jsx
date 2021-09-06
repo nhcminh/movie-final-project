@@ -1,7 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Input, Space, Table, Typography } from 'antd';
+import {
+  Button,
+  Input,
+  Space,
+  Table,
+  Typography,
+  Popconfirm,
+  message,
+} from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { AxiosGet } from '../../../API/method';
+import { AxiosDelete, AxiosGet } from '../../../API/method';
 import { NavLink } from 'react-router-dom';
 
 const { Title } = Typography;
@@ -15,6 +23,8 @@ export default function Dashboard(props) {
   const [, setOrder] = useState({
     sortedInfo: null,
   });
+  const [ get, setGet] = useState(false);
+
   useEffect(() => {
     //gọi API get
     AxiosGet(
@@ -28,13 +38,29 @@ export default function Dashboard(props) {
         setTotalPage(totalCount);
       })
       .catch((err) => console.log(err));
-  }, [pageSize, page]);
+  }, [pageSize, page,get]);
 
   const handleChange = (sorter) => {
     setOrder({
       sortedInfo: sorter,
     });
   };
+
+  // Xử lý PopupConfirm
+  const handleDelete = async (maPhim) => {
+    console.log(maPhim);
+    try {
+      const result = await AxiosDelete(`QuanLyPhim/XoaPhim`, `?MaPhim=${maPhim}`);
+      console.log(result);
+      message.success(`xóa thành công!`);
+      setGet(!get);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  function cancelPopconfirm(e) {
+  }
 
   const columns = [
     {
@@ -91,15 +117,23 @@ export default function Dashboard(props) {
             <EditOutlined
               style={{ fontSize: '25px', color: 'rgb(247,183,182)' }}
               onClick={() => {
-                // console.log('record',record);
                 props.history.push(`/admin/films/edit/${record.maPhim}`);
               }}
             ></EditOutlined>
-            <DeleteOutlined
-              style={{ fontSize: '25px', color: 'rgb(131,122,239)' }}
-              twoToneColor='#52c41a'
-              onClick={() => {}}
-            ></DeleteOutlined>
+            <Popconfirm
+              title='Bạn có chắc muốn xóa?'
+              onConfirm={() => {
+                handleDelete(record.maPhim);
+              }}
+              onCancel={cancelPopconfirm}
+              okText='Yes'
+              cancelText='No'
+            >
+              <DeleteOutlined
+                style={{ fontSize: '25px', color: 'rgb(131,122,239)' }}
+                twoToneColor='#52c41a'
+              ></DeleteOutlined>
+            </Popconfirm>
           </Space>
         );
       },

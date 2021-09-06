@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import {
   Button,
   Input,
@@ -8,9 +8,14 @@ import {
   Popconfirm,
   message,
 } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { AxiosDelete, AxiosGet } from '../../../API/method';
 import { NavLink } from 'react-router-dom';
+import { filmsApi } from '../../../Services/Films/FilmsService';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -23,14 +28,14 @@ export default function Dashboard(props) {
   const [, setOrder] = useState({
     sortedInfo: null,
   });
-  const [ get, setGet] = useState(false);
+  const [get, setGet] = useState(false);
+  const [searchData, setSearchData] = useState('');
+  const searchRef = useRef(null);
 
   useEffect(() => {
     //gọi API get
-    AxiosGet(
-      `QuanLyPhim/LayDanhSachPhimPhanTrang`,
-      `?maNhom=GP01&soTrang=${page}&soPhanTuTrenTrang=${pageSize}`
-    )
+    filmsApi
+      .getFilm(page, pageSize, searchData)
       .then((res) => {
         //   console.log(res.content);
         let { items, totalCount } = res.content;
@@ -38,7 +43,7 @@ export default function Dashboard(props) {
         setTotalPage(totalCount);
       })
       .catch((err) => console.log(err));
-  }, [pageSize, page,get]);
+  }, [pageSize, page, get, searchData]);
 
   const handleChange = (sorter) => {
     setOrder({
@@ -50,7 +55,10 @@ export default function Dashboard(props) {
   const handleDelete = async (maPhim) => {
     console.log(maPhim);
     try {
-      const result = await AxiosDelete(`QuanLyPhim/XoaPhim`, `?MaPhim=${maPhim}`);
+      const result = await AxiosDelete(
+        `QuanLyPhim/XoaPhim`,
+        `?MaPhim=${maPhim}`
+      );
       console.log(result);
       message.success(`xóa thành công!`);
       setGet(!get);
@@ -59,8 +67,28 @@ export default function Dashboard(props) {
     }
   };
 
-  function cancelPopconfirm(e) {
-  }
+  function cancelPopconfirm(e) {}
+
+  // Search
+  const handleSearch = (value) => {
+  };
+
+  const handleChangeSearch = (e) => {
+    // console.log('search',e.target.value);
+    let { value } = e.target;
+    
+    if (searchRef.current) {
+      clearTimeout(searchRef.current);
+    }
+
+    searchRef.current = setTimeout(() => {
+      setSearchData(value);
+    }, 300);
+
+    // console.log('searchRef',searchRef.current);
+    // console.log(value);
+    console.log(searchData);
+  };
 
   const columns = [
     {
@@ -146,7 +174,12 @@ export default function Dashboard(props) {
       <Button type='primary' ghost>
         <NavLink to='/admin/films/addnew'>Thêm phim</NavLink>
       </Button>
-      <Search placeholder='input search text' enterButton />
+      <Search
+        placeholder='input search text'
+        enterButton={<SearchOutlined />}
+        onSearch={handleSearch}
+        onChange={handleChangeSearch}
+      />
 
       <Table
         bordered

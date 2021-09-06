@@ -90,7 +90,10 @@ export default function Dashboard(props) {
           <Space size='large' align='baseline' direction='horizontal'>
             <EditOutlined
               style={{ fontSize: '25px', color: 'rgb(247,183,182)' }}
-              onClick={() => {}}
+              onClick={() => {
+                // console.log('record',record);
+                props.history.push(`/admin/films/edit/${record.maPhim}`);
+              }}
             ></EditOutlined>
             <DeleteOutlined
               style={{ fontSize: '25px', color: 'rgb(131,122,239)' }}

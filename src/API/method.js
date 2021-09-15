@@ -1,6 +1,6 @@
 import { request } from "./config";
 
-const domain = "http://movienew.cybersoft.edu.vn/api/";
+const domain = "https://movienew.cybersoft.edu.vn/api/";
 
 export const AxiosGet = (endPoint, params = "") => {
   return request({

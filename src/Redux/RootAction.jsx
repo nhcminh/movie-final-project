@@ -1,5 +1,5 @@
 import { LoadingSliceActions } from './Slices/LoadingSlice';
-import { FilmsSliceAction } from "./Slices/FilmsSlice";
+import { FilmsSliceActions } from './Slices/FilmsSlice';
+import { UserSliceActions } from './Slices/UserSlice';
 
-export { LoadingSliceActions ,FilmsSliceAction };
-
+export { LoadingSliceActions, FilmsSliceActions, UserSliceActions };

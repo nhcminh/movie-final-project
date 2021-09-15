@@ -15,4 +15,4 @@ const filmsSlice = createSlice({
 })
 
 const { reducer , actions } = filmsSlice; 
-export {actions as FilmsSliceAction , reducer as FilmsSliceReducer };
+export {actions as FilmsSliceActions , reducer as FilmsSliceReducer };

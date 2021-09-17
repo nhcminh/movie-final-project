@@ -21,6 +21,7 @@ import NewFilm from './View/Admin/NewFilm';
 import Showtime from './View/Admin/Showtime';
 import EditFilm from './View/Admin/EditFilm';
 import UserLayout from './HOC/UserLayout';
+import Users from './View/Users';
 
 function App() {
   return (
@@ -35,7 +36,8 @@ function App() {
             <Route path='/admin/films' exact component={Films} />
             <Route path='/admin/films/addnew' exact component={NewFilm} />
             <Route path='/admin/films/edit/:id' exact component={EditFilm} />
-            <Route path='/admin/showtime' exact component={Showtime} />
+            <Route path='/admin/showtime/:id/:tenphim' exact component={Showtime} />
+            <Route path='/admin/users' exact component={Users} />
           </AdminLayout>
         </Route>
         {/* <Route>

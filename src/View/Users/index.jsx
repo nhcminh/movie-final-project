@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, {
+  Fragment,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from 'react';
 import {
   Button,
   Input,
@@ -7,6 +13,7 @@ import {
   Typography,
   Popconfirm,
   message,
+  Modal,
 } from 'antd';
 import {
   EditOutlined,
@@ -14,14 +21,16 @@ import {
   SearchOutlined,
   CalendarOutlined,
 } from '@ant-design/icons';
-import { AxiosDelete, AxiosGet } from '../../../API/method';
+// import { AxiosDelete, AxiosGet } from '../../../API/method';
 import { NavLink } from 'react-router-dom';
-import { filmsApi } from '../../../Services/Films/FilmsService';
+import { userApi } from '../../Services/User/UserService';
+import { AxiosDelete } from '../../API/method';
+import UserForm from '../../Component/UserForm';
 
 const { Title } = Typography;
 const { Search } = Input;
 
-export default function Dashboard(props) {
+export default function Users(props) {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -32,11 +41,47 @@ export default function Dashboard(props) {
   const [get, setGet] = useState(false);
   const [searchData, setSearchData] = useState('');
   const searchRef = useRef(null);
+  const [isNew, setIsNew] = useState(true);
 
+  //Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editUserData, setEditUserData] = useState({
+    taiKhoan: '',
+    matKhau: '',
+    email: '',
+    soDt: '',
+    maNhom: 'GP01',
+    maLoaiNguoiDung: '',
+    hoTen: '',
+  });
+
+  const addNewUser = () => {
+    setIsModalVisible(true);
+    setIsNew(true);
+    setEditUserData({
+      taiKhoan: '',
+      matKhau: '',
+      email: '',
+      soDt: '',
+      maNhom: 'GP01',
+      maLoaiNguoiDung: '',
+      hoTen: '',
+    });
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  // Page
   useEffect(() => {
-    //gọi API get
-    filmsApi
-      .getFilm(page, pageSize, searchData)
+    // gọi API get
+    userApi
+      .getDanhSach(page, pageSize, searchData)
       .then((res) => {
         //   console.log(res.content);
         let { items, totalCount } = res.content;
@@ -44,7 +89,7 @@ export default function Dashboard(props) {
         setTotalPage(totalCount);
       })
       .catch((err) => console.log(err));
-  }, [pageSize, page, get, searchData]);
+  }, [pageSize, page, get, searchData, isModalVisible]);
 
   const handleChange = (sorter) => {
     setOrder({
@@ -53,14 +98,14 @@ export default function Dashboard(props) {
   };
 
   // Xử lý PopupConfirm
-  const handleDelete = async (maPhim) => {
-    console.log(maPhim);
+  const handleDelete = async (taiKhoan) => {
+    // console.log(maPhim);
     try {
       const result = await AxiosDelete(
-        `QuanLyPhim/XoaPhim`,
-        `?MaPhim=${maPhim}`
+        `QuanLyNguoiDung/XoaNguoiDung`,
+        `?TaiKhoan=${taiKhoan}`
       );
-      console.log(result);
+
       message.success(`xóa thành công!`);
       setGet(!get);
     } catch (err) {
@@ -76,15 +121,12 @@ export default function Dashboard(props) {
   const handleChangeSearch = (e) => {
     // console.log('search',e.target.value);
     let { value } = e.target;
-
     if (searchRef.current) {
       clearTimeout(searchRef.current);
     }
-
     searchRef.current = setTimeout(() => {
       setSearchData(value);
     }, 300);
-
     // console.log('searchRef',searchRef.current);
     // console.log(value);
     console.log(searchData);
@@ -92,35 +134,13 @@ export default function Dashboard(props) {
 
   const columns = [
     {
-      title: 'Mã Phim',
-      key: 'maPhim',
-      dataIndex: 'maPhim',
+      title: 'Tài khoản',
+      key: 'taiKhoan',
+      dataIndex: 'taiKhoan',
       width: '10%',
-      sorter: (a, b) => a.maPhim - b.maPhim,
-    },
-    {
-      title: 'Hình ảnh',
-      key: 'hinhAnh',
-      dataIndex: 'hinhAnh',
-      width: '15%',
-      render: (record) => {
-        return (
-          <img
-            src={`${record.replace('movieapinew', 'movieapi')}`}
-            width='100px'
-            alt='phim'
-          ></img>
-        );
-      },
-    },
-    {
-      title: 'Tên phim',
-      key: 'tenPhim',
-      dataIndex: 'tenPhim',
-      width: '25%',
       sorter: (a, b) => {
-        let nameA = a.tenPhim.trim().toLowerCase();
-        let nameB = b.tenPhim.trim().toLowerCase();
+        let nameA = a.taiKhoan.trim().toLowerCase();
+        let nameB = b.taiKhoan.trim().toLowerCase();
         if (nameA < nameB) {
           return -1;
         }
@@ -130,10 +150,38 @@ export default function Dashboard(props) {
       },
     },
     {
-      title: 'Mô tả',
-      key: 'moTa',
-      dataIndex: 'moTa',
-      width: '40%',
+      title: 'Mật khẩu',
+      key: 'matKhau',
+      dataIndex: 'matKhau',
+      width: '10%',
+    },
+    {
+      title: 'Họ tên',
+      key: 'hoTen',
+      dataIndex: 'hoTen',
+      width: '20%',
+      sorter: (a, b) => {
+        let nameA = a.hoTen.trim().toLowerCase();
+        let nameB = b.hoTen.trim().toLowerCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+      },
+    },
+    {
+      title: 'Email',
+      key: 'email',
+      dataIndex: 'email',
+      width: '20%',
+    },
+    {
+      title: 'Số điện thoại',
+      key: 'soDt',
+      dataIndex: 'soDt',
+      width: '10%',
     },
     {
       title: 'Hành động',
@@ -145,13 +193,15 @@ export default function Dashboard(props) {
             <EditOutlined
               style={{ fontSize: '25px', color: 'rgb(247,183,182)' }}
               onClick={() => {
-                props.history.push(`/admin/films/edit/${record.maPhim}`);
+                setEditUserData(record);
+                setIsNew(false);
+                setIsModalVisible(true);
               }}
             ></EditOutlined>
             <Popconfirm
               title='Bạn có chắc muốn xóa?'
               onConfirm={() => {
-                handleDelete(record.maPhim);
+                handleDelete(record.taiKhoan);
               }}
               onCancel={cancelPopconfirm}
               okText='Yes'
@@ -162,13 +212,6 @@ export default function Dashboard(props) {
                 twoToneColor='#52c41a'
               ></DeleteOutlined>
             </Popconfirm>
-            <CalendarOutlined
-              style={{ fontSize: '25px', color: 'rgb(174,221,171)' }}
-              onClick={() => {
-                props.history.push(`/admin/showtime/${record.maPhim}/${record.tenPhim}` );
-                localStorage.setItem('filmParams',JSON.stringify(record))
-              }}
-            ></CalendarOutlined>
           </Space>
         );
       },
@@ -177,9 +220,9 @@ export default function Dashboard(props) {
 
   return (
     <Fragment>
-      <Title level={2}>Quản lý phim</Title>
-      <Button type='primary' ghost>
-        <NavLink to='/admin/films/addnew'>Thêm phim</NavLink>
+      <Title level={2}>Quản lý người dùng</Title>
+      <Button type='primary' ghost onClick={addNewUser}>
+        Thêm người dùng
       </Button>
       <Search
         placeholder='input search text'
@@ -187,12 +230,11 @@ export default function Dashboard(props) {
         onSearch={handleSearch}
         onChange={handleChangeSearch}
       />
-
       <Table
         bordered
         dataSource={data}
         columns={columns}
-        rowKey={'maPhim'}
+        rowKey={'taiKhoan'}
         onChange={handleChange}
         pagination={{
           current: page,
@@ -204,6 +246,15 @@ export default function Dashboard(props) {
           },
         }}
       />
+      <Modal
+        title={isNew ? 'Thêm mới người dùng' : 'Chỉnh sửa thông tin người dùng'}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <UserForm data={{ setIsModalVisible, isNew, editUserData }}></UserForm>
+      </Modal>
     </Fragment>
   );
 }

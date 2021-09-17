@@ -10,6 +10,7 @@ export default function AdminLayout(props) {
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = (collapsed) => {
+    console.log(collapsed);
     setCollapsed(collapsed);
   };
 
@@ -18,18 +19,20 @@ export default function AdminLayout(props) {
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className='logo' />
         <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
-          <Menu.Item key='1' icon={<UserOutlined />}>
-            User
-          </Menu.Item>
-          <SubMenu key='sub1' icon={<FileOutlined />} title='Films'>
+          <SubMenu key='sub1' icon={<UserOutlined />} title='Users'>
             <Menu.Item key='2'>
+              <NavLink to='/admin/users'>Users</NavLink>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key='sub2' icon={<FileOutlined />} title='Films'>
+            <Menu.Item key='4'>
               <NavLink to='/admin/films'>Films</NavLink>
             </Menu.Item>
-            <Menu.Item key='3'>
+            <Menu.Item key='5'>
               <NavLink to='/admin/films/addnew'>Add new</NavLink>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key='4' icon={<DesktopOutlined />}>
+          <Menu.Item key='6' icon={<DesktopOutlined />}>
             Showtime
           </Menu.Item>
         </Menu>
